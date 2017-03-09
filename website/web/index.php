@@ -7,7 +7,7 @@ $tmpl = new ihrname\SimpleTemplateEngine(__DIR__ . "/../templates/");
 
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":
-		(new ihrname\Controller\IndexController($tmpl))->homepage();
+		(new michaeljakober\Controller\IndexController($tmpl))->homepage();
 		break;
 	case "/testroute":
 		echo "test";
