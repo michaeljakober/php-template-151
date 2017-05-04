@@ -3,22 +3,27 @@
 namespace michaeljakober\Controller;
 
 use michaeljakober\SimpleTemplateEngine;
+use michaeljakober\Service\Login\LoginService;
 
 class LoginController 
 {
   /**
-   * @var ihrname\SimpleTemplateEngine Template engines to render output
+   * @var michaeljakober\SimpleTemplateEngine Template engines to render output
    */
   private $template;
-  private $pdo;
   
   /**
-   * @param ihrname\SimpleTemplateEngine
+   * @var michaeljakober\Service\Login\LoginService
    */
-  public function __construct(SimpleTemplateEngine $template, \PDO $pdo)
+  private $loginService;
+  
+  /**
+   * @param michaeljakober\SimpleTemplateEngine
+   */
+  public function __construct(SimpleTemplateEngine $template, LoginService $loginService)
   {
      $this->template = $template;
-     $this->pdo = $pdo;  
+     $this->loginService = $loginService;
   }
 
   public function showLogin()
@@ -33,15 +38,15 @@ class LoginController
   		return;
   	}
   	
-  	$stmt = $this->pdo->prepare("SELECT * FROM user WHERE email=? AND password=?");
-  	$stmt->bindValue(1, $data["email"]);
-  	$stmt->bindValue(2, $data["password"]);
-  	$stmt->execute();
   	
-  	if($stmt->rowCount() == 1) {
-  		echo "Login Successful";
+  	if($this->LoginService->authenticate($data["email"], $data["password"])) {
+  		header("location: /");
+  		
   	} else {
-  		echo "Login failed";
+  		echo $this->template->render("login.html.php", [
+  			"email" => $data["email"]
+  				
+  		]);
   	}
   }
 }
