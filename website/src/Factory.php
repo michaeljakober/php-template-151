@@ -31,7 +31,7 @@ class Factory{
 	
 	public function getIndexController(){
 		return new Controller\IndexController(
-				$this->getTemplateEngine()
+				$this->getTwigEngine()
 			);
 	}
 	
@@ -49,5 +49,11 @@ class Factory{
 	
 	public function getLoginService() {
 		return new Service\Login\LoginPdoService($this->getPdo());
+	}
+
+	private function getTwigEngine()
+	{
+		$loader = new \Twig_Loader_Filesystem(__DIR__."/../templates/");
+		return new \Twig_Environment($loader);
 	}
 }
