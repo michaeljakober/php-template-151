@@ -36,11 +36,11 @@ class Factory{
 	}
 	
 	public function getLoginController(){
-		return new Controller\LoginController($this->getTemplateEngine(), $this->getLoginService());
+		return new Controller\LoginController($this->getTwigEngine(), $this->getLoginService());
 	}
 	
 	public function getPdo() {
-		return new \PDO("mysql:host=mariadb;dbname=app;charset=utf8",
+		return new \PDO("mysql:host=mariadb;dbname=hangman;charset=utf8",
 				$this->config["database"]["user"],
 				"my-secret-pw",
 				[\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]

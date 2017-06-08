@@ -14,10 +14,18 @@ switch($_SERVER["REQUEST_URI"]) {
 		break;
 	case "/login":
 		$cnt = $factory->getLoginController();
-		if ($_SERVER["REQUEST_METHOD"] === "Get") {
-			$cnt->showLogin();
-		} else	{
+		if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			$cnt->login($_POST);
+		} else	{
+			$cnt->showLogin();
+		}
+		break;
+	case "/register":
+		$cnt = $factory->getLoginController();
+		if ($_SERVER["REQUEST_METHOD"] === "POST") {
+			$cnt->register($_POST);
+		} else	{
+			$cnt->showRegister();
 		}
 		break;
 	default:
