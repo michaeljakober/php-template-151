@@ -45,8 +45,11 @@ class LoginController
   	
   	
   	if($this->loginService->authenticate($data["email"], $data["password"])) {
-  		header("location: /");
-  		
+  		session_regenerate_id();
+  		$_SESSION["username"] = $data["username"];
+  		echo $this->template->render("hangman.html.twig", [
+  				"username" => $data["username"]
+  		]);
   	} else {
   		echo $this->template->render("login.html.twig", [
   			"email" => $data["email"]

@@ -10,16 +10,16 @@ class Factory{
 				parse_ini_file($filename, true)
 			);
 	}
-	
+
 	public function __construct(array $config)
 	{
 		$this->config = $config;
 	}
-	
+
 	public function getTemplateEngine() {
 		return new SimpleTemplateEngine(__DIR__."/../templates/");
 	}
-	
+
 	public function getMailer()
 	{
 		return \Swift_Mailer::newInstance(
@@ -28,17 +28,17 @@ class Factory{
 				->setPassword("Pe$6A+aprunu")
 				);
 	}
-	
+
 	public function getIndexController(){
 		return new Controller\IndexController(
 				$this->getTwigEngine()
 			);
 	}
-	
+
 	public function getLoginController(){
 		return new Controller\LoginController($this->getTwigEngine(), $this->getLoginService());
 	}
-	
+
 	public function getPdo() {
 		return new \PDO("mysql:host=mariadb;dbname=hangman;charset=utf8",
 				$this->config["database"]["user"],
@@ -46,7 +46,7 @@ class Factory{
 				[\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]
 				);
 	}
-	
+
 	public function getLoginService() {
 		return new Service\Login\LoginPdoService($this->getPdo());
 	}
