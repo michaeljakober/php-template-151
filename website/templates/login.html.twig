@@ -3,7 +3,7 @@
 	{{ parent() }} - Login
 {% endblock %}
 {% block content %}
-<form method="POST">
+<form method="POST" class="form">
 		<label>
 			Email:
 			<input type="email" name="email" value="{{ email }}"/>
@@ -12,6 +12,7 @@
 			Passwort:
 			<input type="password" name="password" />
 		</label>
+  		<input type="hidden" name="logincsrf" value="{{ loginCsrf }}">
 		<input type="submit" name="login" value="Login" />
 	
 	</form>

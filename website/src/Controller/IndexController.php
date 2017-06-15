@@ -20,7 +20,7 @@ class IndexController
   }
 
   public function homepage() {
-    echo "INDEX";
+    echo $this->template->render("base.html.twig");
   }
 
   public function greet($name) {

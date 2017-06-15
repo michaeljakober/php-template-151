@@ -28,12 +28,14 @@ class LoginController
 
   public function showLogin()
   {
-  	echo $this->template->render("login.html.twig");
+  	$csrf = $this->factory->generateCsrf("register");
+  	echo $this->template->render("login.html.twig", ["loginCsrf" => $csrf]);
   }
   
   public function showRegister($email = "", $username = "", $error = "")
   {
-	echo $this->template->render("register.html.twig", ["email" => $email, "username" => $username, "error" => $error] );
+  	$csrf = $this->factory->generateCsrf("register");
+	echo $this->template->render("register.html.twig", ["registerCsrf" => $csrf, "email" => $email, "username" => $username, "error" => $error] );
   }
   
   public function login(array $data)
@@ -45,10 +47,11 @@ class LoginController
   	
   	
   	if($this->loginService->authenticate($data["email"], $data["password"])) {
-  		session_regenerate_id();
-  		$_SESSION["username"] = $data["username"];
+  		session_destroy();
+  		session_start();
+  		$_SESSION["email"] = $data["email"];
   		echo $this->template->render("hangman.html.twig", [
-  				"username" => $data["username"]
+  				"email" => $data["email"]
   		]);
   	} else {
   		echo $this->template->render("login.html.twig", [
@@ -80,6 +83,9 @@ class LoginController
   	if(!isset($error["email"]) && !isset($error["username"]) && !isset($error["password"]))
   	{
   		$this->loginService->createUser($data["username"], $data["email"], $data["password"]);
+  		echo $this->template->render("hangman.html.twig", [
+  				"email" => $data["email"]
+  		]);
   		return;
   	}
   	echo $this->showRegister($data["email"], $data["username"], $error);

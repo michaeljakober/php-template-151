@@ -28,6 +28,11 @@ switch($_SERVER["REQUEST_URI"]) {
 			$cnt->showRegister();
 		}
 		break;
+	case "/logout":
+		$cnt = $factory->getLoginController();
+		session_destroy();
+		$cnt->showLogin();
+		break;
 	default:
 		$matches = [];
 		if(preg_match("|^/hello/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {

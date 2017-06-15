@@ -3,7 +3,7 @@
 	{{ parent() }} - Register
 {% endblock %}
 {% block content %}
-	<form method="POST">
+	<form method="POST" class="form">
 		<label>
 			Username:
 			<input type="text" name="username" value="{{ username }}">
@@ -17,6 +17,7 @@
 			<input type="password" name="password" />
 		</label>
 		<div class="error">{{ error }}</div>
+		<input type="hidden" name="registercsrf" value="{{ registerCsrf }}">
 		<input type="submit" name="register" value="Register" />
 	
 	</form>
