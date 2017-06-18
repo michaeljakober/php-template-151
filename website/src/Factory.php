@@ -36,7 +36,11 @@ class Factory{
 	}
 
 	public function getLoginController(){
-		return new Controller\LoginController($this->getTwigEngine(), $this->getLoginService());
+		return new Controller\LoginController($this->getTwigEngine(), $this->getLoginService(), $this);
+	}
+	
+	public function getGameController(){
+		return new Controller\GameController($this->getTwigEngine(), $this->getGameService(), $this);
 	}
 
 	public function getPdo() {
@@ -51,10 +55,16 @@ class Factory{
 		return new Service\Login\LoginPdoService($this->getPdo());
 	}
 
+	public function getGameService() {
+		return new Service\Game\GamePdoService($this->getPdo());
+	}
+	
 	private function getTwigEngine()
 	{
 		$loader = new \Twig_Loader_Filesystem(__DIR__."/../templates/");
-		return new \Twig_Environment($loader);
+		$twig = new \Twig_Environment($loader);
+		$twig->addGlobal('SESSION', $_SESSION);
+		return $twig;
 	}
 	
 	public function generateCsrf($csrfName)
@@ -71,7 +81,7 @@ class Factory{
 		$randomString = '';
 		for ($i = 0; $i < $length; $i++)
 		{
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
+			$randomString .= $characters[rand(0, $length - 1)];
 		}
 		return $randomString;
 	}

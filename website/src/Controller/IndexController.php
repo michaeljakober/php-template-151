@@ -27,7 +27,7 @@ class IndexController
   	echo $this->template->render("hello.html.twig", ["name" => $name]);
   }
   
-	public function showIndex($session) {
-		echo $this->template->render("index.html.twig", ["session" => $session]);
-	}
+  public function showIndex($session = "") {
+	echo $this->template->render("index.html.twig", ["session" => $session]);
+  }
 }

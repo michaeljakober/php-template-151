@@ -30,8 +30,11 @@ switch($_SERVER["REQUEST_URI"]) {
 		break;
 	case "/logout":
 		$cnt = $factory->getLoginController();
-		session_destroy();
-		$cnt->showLogin();
+		$cnt->logout();
+		break;
+	case "/hangman":
+		$cnt = $factory->getGameController();
+		$cnt->showGame();
 		break;
 	default:
 		$matches = [];
@@ -39,6 +42,14 @@ switch($_SERVER["REQUEST_URI"]) {
 			$factory->getIndexController()->greet($matches[1]);
 			break;
 		}
-		echo "Not Found";
+		else if (preg_match("/hangman\?length\=/", $_SERVER["REQUEST_URI"])){
+			$cnt = $factory->getGameController();
+			$cnt->getWord($_GET["length"]);
+			break;
+		}
+		else {
+			$factory->getIndexController()->showIndex();
+			break;
+		}
 }
 

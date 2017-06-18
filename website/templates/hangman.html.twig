@@ -3,6 +3,15 @@
 	{{ parent() }} - Game
 {% endblock %}
 {% block content %}
-Here Comes the Game
-
+<p>Here Comes the Game</p>
+<p>Choose your Number of Letters</p>
+<a href="hangman?length=2" class="link">2</a>
+<a href="hangman?length=3" class="link">3</a>
+<a href="hangman?length=4" class="link">4</a>
+<a href="hangman?length=5" class="link">5</a>
+<a href="hangman?length=6" class="link">6</a>
+<a href="hangman?length=7" class="link">7</a>
+<a href="hangman?length=8" class="link">8</a>
+<a href="hangman?length=9" class="link">9</a>
+<p>{{ word }}</p>
 {% endblock %}

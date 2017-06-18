@@ -1,0 +1,12 @@
+{%  extends 'base.html.twig' %}
+{% block title %}
+	{{ parent() }} - Index
+{% endblock %}
+{% block content %}
+<p>Welcome to my Game - Hangman</p>
+{% if SESSION.LoggedIn != true %}
+</p>Click on the top right Corner to log in or sign up, if you're not having an account</p>
+{% else %}
+<p>Click <a href="/hangman">here</a> to change to the Game.
+{% endif %}
+{% endblock %}
