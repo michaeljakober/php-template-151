@@ -3,6 +3,7 @@
 	{{ parent() }} - Register
 {% endblock %}
 {% block content %}
+	{% if SESSION.LoggedIn != true %}
 	<form method="POST" class="form">
 		<label>
 			Username:
@@ -19,6 +20,8 @@
 		<div class="error">{{ error }}</div>
 		<input type="hidden" name="registercsrf" value="{{ registerCsrf }}">
 		<input type="submit" name="register" value="Register" />
-	
 	</form>
+	{% else %}
+	<p>You are already Logged in. Please log out to create a new Account.</p>
+	{% endif %}
 {% endblock %}

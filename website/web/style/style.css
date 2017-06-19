@@ -11,6 +11,10 @@
 	color: red;
 }
 
+.info {
+	color: blue;
+}
+
 .form, label, input{
 	margin: 5px;
 	margin-top: 10px;
@@ -22,6 +26,7 @@ body {
 	margin:0px auto;
     width:50%;
     margin-bottom:50px;
+    font-family: "Arial", Helvetica, sans-serif;
 }
 
 .buttons {
@@ -31,4 +36,23 @@ body {
 
 .clear {
 	clear: both;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
+.title {
+	font-size: 35px;
+	color: black;
+	text-decoration: none;
+}
+
+.line {
+	border: 1px dotted black;
 }

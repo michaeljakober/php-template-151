@@ -57,9 +57,13 @@ class LoginController
   	if(!isset($data["password"]) || trim($data["password"] == ''))
   	{
   		$error = $error." Please enter a password!";
-  	}
+	}
+	if(!$this->loginService->authenticate($data["email"], $data["password"]) && (!isset($error) || trim($error == '')))
+	{
+		$error = $error ." Email or password is wrong!";
+	}
   	
-  	if($this->loginService->authenticate($data["email"], $data["password"]) && (!isset($error) || trim($error == ''))) {
+	if(!isset($error) || trim($error == '')) {
   		session_regenerate_id();
   		$_SESSION["email"] = $data["email"];
   		$_SESSION["LoggedIn"] = true;
@@ -75,7 +79,7 @@ class LoginController
   public function logout()
   {
   	session_destroy();
-  	header("Location: /login");
+	header("Location: /");
   	return;
   }
   
@@ -99,12 +103,10 @@ class LoginController
   	{
   		$error = $error." This Email is already in use!";
   	}
-  	if(!isset($error))
+	if(!isset($error) || trim($error == ''))
   	{
   		$this->loginService->createUser($data["username"], $data["email"], $data["password"]);
-  		echo $this->template->render("hangman.html.twig", [
-  				"email" => $data["email"]
-  		]);
+		$this->login($data);
   		return;
   	}
   	echo $this->showRegister($data["email"], $data["username"], $error);

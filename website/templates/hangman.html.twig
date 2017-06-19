@@ -14,4 +14,14 @@
 <a href="hangman?length=8" class="link">8</a>
 <a href="hangman?length=9" class="link">9</a>
 <p>{{ word }}</p>
+<hr class="line"/>
+<p>Here you can add a new word. It must be betweet 2 and 9 Letters.</p>
+<form method="post">
+	<label>Word: 
+	<input type="text" name="inputWord" />
+	</label>
+	<input type="submit" name="wordSubmit"/>
+</form>
+<p class="error">{{ error }}</p>
+<p class="info">{{ info }}</p>
 {% endblock %}

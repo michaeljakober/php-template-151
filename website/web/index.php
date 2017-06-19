@@ -10,7 +10,7 @@ $loginService = $factory->getLoginService();
 
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":
-		$factory->getIndexController()->homepage();
+		$factory->getIndexController()->showIndex();
 		break;
 	case "/login":
 		$cnt = $factory->getLoginController();
@@ -34,7 +34,11 @@ switch($_SERVER["REQUEST_URI"]) {
 		break;
 	case "/hangman":
 		$cnt = $factory->getGameController();
-		$cnt->showGame();
+		if($_SERVER["REQUEST_METHOD"] === "POST") {
+			$cnt->addWord($_POST);
+		} else {
+			$cnt->showGame();
+		}
 		break;
 	default:
 		$matches = [];

@@ -2,6 +2,7 @@
  	<head>
 		<title>{% block title 'Hangman' %}</title>
 		<link rel="stylesheet" type="text/css" href="/style/style.css">
+		<link rel="shortcut icon" type="image/png" href="/style/hangman.png">
  	</head>
  	<body>
 	    {% if SESSION.email != "" %}
@@ -15,8 +16,9 @@
 			<a class="link" href="/login">Login</a>
 		</div>
         {% endif %}
-		<h1>Hangman - Michael Jakober</h1>
+		<a href="/Index" class="title">Hangman</a>
 		<div class="clear"></div>
  		{% block content '' %}
+ 		<div class="footer">(c) by Michael Jakober, 2017</div>
  	</body>
  </html>
