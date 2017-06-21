@@ -29,9 +29,14 @@ class GameController
 	echo $this->template->render("hangman.html.twig", ["error" => $error, "info" => $info]);
   }
 
-  public function getWord($length){
+  public function getWordFromLength($length){
   	$word = "Sorry, hadn't enough time to make the game. Here's a word with $length Letters: ".$this->gameService->getRandomWordFromLength($length);
   	echo $this->template->render("hangman.html.twig", ["word" => $word]);
+  }
+
+  public function getWord(){
+	$word = "Sorry, hadn't enough time to make the game. Here's a random Word: ".$this->gameService->getRandomWord();
+	echo $this->template->render("hangman.html.twig", ["word" => $word]);
   }
 
   public function addWord(array $data) {

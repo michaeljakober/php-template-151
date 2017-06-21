@@ -48,7 +48,11 @@ switch($_SERVER["REQUEST_URI"]) {
 		}
 		else if (preg_match("/hangman\?length\=/", $_SERVER["REQUEST_URI"])){
 			$cnt = $factory->getGameController();
-			$cnt->getWord($_GET["length"]);
+			if($_GET["length"] == "random") {
+				$cnt->getWord();
+			} else {
+				$cnt->getWordFromLength($_GET["length"]);
+			}
 			break;
 		}
 		else {
