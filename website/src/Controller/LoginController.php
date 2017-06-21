@@ -38,7 +38,6 @@ class LoginController
   
   public function showRegister($email = "", $username = "", $error = "")
   {
-  	session_regenerate_id();
   	$csrf = $this->factory->generateCsrf("register");
 	$_SESSION["registerCsrf"] = $csrf;
 	echo $this->template->render("register.html.twig", ["registerCsrf" => $csrf, "email" => $email, "username" => $username, "error" => $error] );
@@ -46,13 +45,6 @@ class LoginController
   
   public function login(array $data)
   {
-
-	if (!array_key_exists("loginCsrf", $data) && !isset($data["loginCsrf"]) && trim($data["loginCsrf"]) == '' && $_SESSION["loginCsrf"] != $data["loginCsrf"])
-	{
-		$this->showLogin("", "Please don't Hack");
-		return;
-	}
-
 	if (!array_key_exists("email", $data) || !array_key_exists("password", $data)) {
 		$this->showLogin();
 		return;
@@ -94,12 +86,6 @@ class LoginController
   
   public function register(array $data)
   {
-	if (!array_key_exists("registerCsrf", $data) && !isset($data["registerCsrf"]) && trim($data["registerCsrf"]) == '' && $_SESSION["registerCsrf"] != $data["registerCsrf"])
-	{
-		$this->showRegister("","","Please don't Hack");
-		return;
-	}
-
   	$error = "";
   	// Check if everything is entered
   	if(!isset($data["email"]) || trim($data["email"] == ''))
@@ -122,8 +108,24 @@ class LoginController
   	{
   		$this->loginService->createUser($data["username"], $data["email"], $data["password"]);
 		$this->login($data);
+		$link = "https://localhost/login";
+		$message = "<h1>Hallo ".$data["username"]."</h1>
+				<p>Thanks for Registration on Hangman</p>
+				<p>Click <a href=".$link.">here</a> to log into the game.</p>";
+		$this->sendMail("Registration", $data["email"], $messsage);
   		return;
   	}
   	echo $this->showRegister($data["email"], $data["username"], $error);
+  }
+
+  private function sendMail($betreff, $mail, $nachricht)
+  {
+  	$this->factor-getMailer()->send(
+  			Swift_Message::newInstance("Hangman - " . $betreff)
+  			->setFrom(["noreply@hangman.com" => "Hangman-Admin"])
+  			->setTo($mail)
+  			->setContentType("text/html")
+  			->setBody($nachricht)
+  			);
   }
 }
