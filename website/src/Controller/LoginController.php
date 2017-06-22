@@ -4,6 +4,7 @@ namespace michaeljakober\Controller;
 
 use michaeljakober\SimpleTemplateEngine;
 use michaeljakober\Service\Login\LoginService;
+use Swift_Message;
 
 class LoginController 
 {
@@ -31,25 +32,29 @@ class LoginController
 
   public function showLogin($email = "", $error = "")
   {
-  	$csrf = $this->factory->generateCsrf("login");
-	$_SESSION["loginCsrf"] = $csrf;
-  	echo $this->template->render("login.html.twig", ["loginCsrf" => $csrf, "email" => $email, "error" => $error]);
+  	session_regenerate_id();
+  	$csrf = $this->factory->generateCsrf("loginCsrf");
+  	echo $this->template->render("login.html.twig", ["email" => $email, "error" => $error]);
   }
   
   public function showRegister($email = "", $username = "", $error = "")
   {
-  	$csrf = $this->factory->generateCsrf("register");
-	$_SESSION["registerCsrf"] = $csrf;
-	echo $this->template->render("register.html.twig", ["registerCsrf" => $csrf, "email" => $email, "username" => $username, "error" => $error] );
+  	session_regenerate_id();
+  	$csrf = $this->factory->generateCsrf("registerCsrf");
+	echo $this->template->render("register.html.twig", ["email" => $email, "username" => $username, "error" => $error] );
   }
   
   public function login(array $data)
   {
+  	if (!array_key_exists("loginCsrf", $data) && !isset($data["loginCsrf"]) && trim($data["loginCsrf"]) == '' && $_SESSION["loginCsrf"] != $data["loginCsrf"])
+  	{
+  		$this->showLogin("", "Please don't Hack");
+  		return;
+  	}
 	if (!array_key_exists("email", $data) || !array_key_exists("password", $data)) {
 		$this->showLogin();
 		return;
 	}
-  	
   	$error = "";
   	if(!isset($data["email"]) || trim($data["email"] == ''))
   	{
@@ -86,6 +91,11 @@ class LoginController
   
   public function register(array $data)
   {
+  	if (!array_key_exists("registerCsrf", $data) && !isset($data["registerCsrf"]) && trim($data["registerCsrf"]) == '' && $_SESSION["registerCsrf"] != $data["registerCsrf"])
+  	{
+  		$this->showRegister("", "", "Please don't Hack");
+  		return;
+  	}
   	$error = "";
   	// Check if everything is entered
   	if(!isset($data["email"]) || trim($data["email"] == ''))

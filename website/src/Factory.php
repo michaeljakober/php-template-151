@@ -70,7 +70,7 @@ class Factory{
 	public function generateCsrf($csrfName)
 	{
 		$csrf = $this->generateString(50);
-		$_SESSION[$csrfName . "csrf"] = $csrf;
+		$_SESSION[$csrfName] = $csrf;
 		return $csrf;
 	}
 	
