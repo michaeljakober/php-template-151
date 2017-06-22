@@ -74,9 +74,6 @@ class LoginController
   		$_SESSION["email"] = $data["email"];
   		$_SESSION["LoggedIn"] = true;
   		header("Location: /hangman");
-  		echo $this->template->render("hangman.html.twig", [
-  				"email" => $data["email"]
-  		]);
   	} else {
   		echo $this->showLogin($data["email"], $error);
   	}
@@ -117,12 +114,11 @@ class LoginController
 	if(!isset($error) || trim($error == ''))
   	{
   		$this->loginService->createUser($data["username"], $data["email"], $data["password"]);
-		$this->login($data);
 		$link = "https://localhost/login";
 		$message = "<h1>Hallo ".$data["username"]."</h1>
 				<p>Thanks for Registration on Hangman</p>
 				<p>Click <a href=".$link.">here</a> to log into the game.</p>";
-		$this->sendMail("Registration", $data["email"], $messsage);
+		$this->sendMail("Registration", $data["email"], $message);
   		return;
   	}
   	echo $this->showRegister($data["email"], $data["username"], $error);
@@ -130,7 +126,7 @@ class LoginController
 
   private function sendMail($betreff, $mail, $nachricht)
   {
-  	$this->factor-getMailer()->send(
+  	$this->factory-getMailer()->send(
   			Swift_Message::newInstance("Hangman - " . $betreff)
   			->setFrom(["noreply@hangman.com" => "Hangman-Admin"])
   			->setTo($mail)

@@ -25,7 +25,6 @@ class GameController
   }
   
   public function showGame($error = "", $info= ""){
-	header("Location: /hangman");
 	echo $this->template->render("hangman.html.twig", ["error" => $error, "info" => $info]);
   }
 

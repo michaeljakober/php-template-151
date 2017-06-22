@@ -18,7 +18,7 @@
 			<input type="password" name="password" />
 		</label>
 		<div class="error">{{ error }}</div>
-		<input type="hidden" name="registercsrf" value="{{ SESSION.registerCsrf }}">
+		<input type="hidden" name="registerCsrf" value="{{ SESSION.registerCsrf }}">
 		<input type="submit" name="register" value="Register" />
 	</form>
 	{% else %}
